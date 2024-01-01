@@ -27,6 +27,7 @@ palette in :root
     --highlight-low: #2a283e;
     --highlight-muted: #44415a;
     --highlight-high: #56526e;
+    --variable: #42BA97;
 
     font-family: ui-sans-serif, system-ui, -apple-system,
         BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
@@ -132,7 +133,7 @@ marp-pre {
     color: var(--pine);
 }
 .hljs-variable {
-    color: var(--text);
+    color: var(--foam);
 }
 .hljs-literal {
     color: var(--rose);
@@ -154,6 +155,10 @@ marp-pre {
 }
 .hljs-meta {
     color: var(--subtle);
+}
+
+.hljs-subst {
+    color: #D34052;
 }
 
 section {
