@@ -4,6 +4,7 @@ theme: rose-pine-moon
 paginate: true
 ---
 
+
 # Project 1: Server/Client Side Rendering
 
 Fei Wang (Michael) :heart: AI
@@ -13,7 +14,7 @@ HyperGI
 Github: [oceanumeric](https://github.com/oceanumeric)
 
 
-<img style=" position: absolute; bottom: 20; right:50; width: 30%;" src="https://media.giphy.com/media/lUZwWoJfL0c0HCIDRP/giphy.gif">
+<img class="landing-img" src="https://media.giphy.com/media/lUZwWoJfL0c0HCIDRP/giphy.gif">
 
 ---
 
@@ -217,4 +218,49 @@ function addPostsToContainer() {
 
 // Call the function to add posts when the page loads
 window.onload = addPostsToContainer;
+```
+
+---
+
+## Server Side Rendering with `SvelteKit`
+
+
+```bash
+# setup
+cd client  # go to client folder
+npm create svelte@latest
+npm install
+npm run dev
+
+.
+├── node_modules
+├── package.json
+├── package-lock.json
+├── README.md
+├── src
+├── static
+├── svelte.config.js
+├── tsconfig.json
+└── vite.config.ts
+```
+
+---
+
+## Server Side Rendering with `SvelteKit`
+
+```bash
+.
+├── app.d.ts
+├── app.html
+├── lib
+│   └── index.ts
+└── routes
+    └── +page.svelte
+```
+
+<a href="https://tailwindcss.com/docs/guides/sveltekit" src="_blank">Tailwind CSS</a>
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
 ```
