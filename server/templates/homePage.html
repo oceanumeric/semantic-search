@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #postContainer {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .post {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+        }
+
+        .post h2 {
+            color: #333;
+        }
+
+        .post .date {
+            color: #777;
+            font-size: 0.8em;
+        }
+
+        .post .summary {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div id="postContainer"></div>
+
+<script>
+    // Example data for posts
+    const posts = [
+        {
+            title: "Post 1",
+            date: "January 1, 2024",
+            summary: "This is the summary of the first post."
+        },
+        {
+            title: "Post 2",
+            date: "January 2, 2024",
+            summary: "This is the summary of the second post."
+        },
+        {
+            title: "Post 3",
+            date: "January 3, 2024",
+            summary: "This is the summary of the third post."
+        }
+    ];
+
+    // Function to dynamically add posts to the container
+    function addPostsToContainer() {
+        const postContainer = document.getElementById("postContainer");
+
+        posts.forEach(post => {
+            const postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            postElement.innerHTML = `
+                <h2>${post.title}</h2>
+                <p class="date">${post.date}</p>
+                <p class="summary">${post.summary}</p>
+            `;
+
+            postContainer.appendChild(postElement);
+        });
+    }
+
+    // Call the function to add posts when the page loads
+    window.onload = addPostsToContainer;
+</script>
+
+</body>
+</html>

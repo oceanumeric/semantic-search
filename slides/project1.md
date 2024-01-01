@@ -66,3 +66,25 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 </div>
 
 --- 
+
+## Client Side Rendering with `FastAPI`
+
+- client send request to server
+- server process the request and send back a HTML file
+- client render the HTML file
+
+<br>
+
+```bash
+# setup
+python3 -m venv venv
+source venv/bin/activate
+pip install fastapi uvicorn jinja2
+```
+
+
+---
+
+## Prompt for HTML
+
+> Create an HTML document with a div element that serves as a container for posts. Write JavaScript code to dynamically add posts to this container. Use an array to store at least three posts, where each post should have a title, created date, and summary. The posts should be displayed with appropriate styling within the container Feel free to include any necessary styling in the HTML or use inline styles. Use example data for the posts, and demonstrate how to add the posts to the container using JavaScript.
