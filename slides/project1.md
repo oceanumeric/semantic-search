@@ -299,3 +299,18 @@ npx tailwindcss init -p
     {/each}
 </div>
 ```
+
+---
+
+## SvelteKit Key Concepts
+
+- Routing
+    - `+page.svelte`
+    - `+layout.svelte`
+    - `+sever.ts`
+- Loading Data
+- Form Actions
+- Page Options
+- State Management
+
+<img class="landing-img" src="https://media.giphy.com/media/lUZwWoJfL0c0HCIDRP/giphy.gif">
