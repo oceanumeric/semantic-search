@@ -13,6 +13,8 @@ HyperGI
 Github: [oceanumeric](https://github.com/oceanumeric)
 
 
+<img style=" position: absolute; bottom: 20; right:50; width: 30%;" src="https://media.giphy.com/media/lUZwWoJfL0c0HCIDRP/giphy.gif">
+
 ---
 
 # Key Points
