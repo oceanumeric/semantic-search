@@ -27,6 +27,16 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 
 ---
 
+
+# History
+
+<iframe width="720" height="400" src="https://www.youtube.com/embed/ZTnIxIA5KGw?si=n7-ZcJvYJELqEDaf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<a href="https://kleopetrov.me/2018/03/19/how-browsers-work-and-render-pages/" target="_blank">How Browsers Work and Render Pages</a>
+
+
+---
+
 # Key Points
 
 - Why SSR/CSR?
