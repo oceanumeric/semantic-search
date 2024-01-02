@@ -1,7 +1,6 @@
 <script>
-    import "../app.css";
+	import '../app.css';
 </script>
-  
 
 <div class="container mx-auto w-full">
 	<div class="flex w-full items-center">

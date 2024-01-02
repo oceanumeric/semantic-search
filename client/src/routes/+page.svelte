@@ -1,2 +1,7 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	export let data;
+</script>
+
+<div class="h-screen flex items-center justify-center">
+	<img src="https://media.giphy.com/media/T1A5qkSgZ2p24aOWQc/giphy.gif" alt="loading" />
+</div>

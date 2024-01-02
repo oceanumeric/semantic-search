@@ -59,3 +59,145 @@ Our website needs to respond to different URLs and render different content base
 <br>
 
 <a href="https://kit.svelte.dev/docs/routing" target="_blank"> SvelteKit Docs </a>
+
+
+---
+
+# All requests are done by URL
+
+- `http://localhost:5173/`: Home Page
+- `http://localhost:5173/about`: slug = `about`
+- `http://localhost:5173/?page=2`: query = `page=2` (search, searchParams)
+
+<img width="78%" src="https://static.semrush.com/blog/uploads/media/fa/fe/fafe931ac85fc1c5b628299e399a2870/yqyhmdwqsDzxONy4U6FyLwK_LN_hl36xIGyfon2xWiopIuhrhR4w08c-NbWe2EnJXUh0RWDOCtMrlVNhqlBVmWRjKI3freLX4X_1Ugk7_9FwqgquwBsNqfaOnJZQ6xJJnGRKowrKhSBr_xVQZGI6gCg.png">
+
+
+---
+
+# Example: DummyJSON
+
+```
+https://dummyjson.com/products?limit=10&skip=10
+```
+
+<br>
+
+<a href="https://dummyjson.com/products?limit=10&skip=10" target="_blank"> DummyJSON </a>
+
+<br>
+
+Application Development = User Interface + Data
+
+---
+
+![bg h:80%](https://media.giphy.com/media/aNbGyHcDYphNbhe4EE/giphy.gif)
+
+
+---
+
+# URL in SvelteKit
+
+```js
+// +page.server.ts
+import type { PageServerLoad } from './$types';
+
+export const load:PageServerLoad = (async ({ url }) => {
+    console.log('page.server.ts load', url);
+    console.log('URL search params', url.searchParams);
+    return {};
+});
+```
+
+
+---
+
+```bash
+2:33:47 PM [vite] page reload src/routes/+page.server.ts (x3)
+page.server.ts load URL {
+  href: 'http://localhost:5173/',
+  origin: 'http://localhost:5173',
+  protocol: 'http:',
+  username: '',
+  password: '',
+  host: 'localhost:5173',
+  hostname: 'localhost',
+  port: '5173',
+  pathname: '/',
+  search: '',
+  searchParams: URLSearchParams {},
+  hash: ''
+}
+```
+
+
+---
+
+# Knowing Json Keys is Important
+
+- many `json` files are nested
+- keep track of the keys
+- keys have to be consistent
+- `json` keys are case-sensitive
+- `json` keys are like `dict` keys in Python
+
+
+---
+
+![bg](https://media.giphy.com/media/EmkBfdGYTCwmXMnf3A/giphy.gif)
+
+
+--- 
+
+## Tips
+
+```js
+// +page.server.ts
+console.log(data)
+// +page.svelte
+{JSON.stringify(data, null, 2)}
+```
+
+---
+
+```js
+import type { PageServerLoad } from './$types';
+import { error } from '@sveltejs/kit';
+
+export const load:PageServerLoad = (async ({ url }) => {
+
+    // in case user enters a string instead of a number
+    const limit = Number(url.searchParams.get('limit')) || 10;
+	const skip = Number(url.searchParams.get('skip')) || 0;
+
+    if (limit > 100) {
+        throw error(404, 'limit must be less than 100')
+    }
+    
+    // function to get data from API
+    async function getUsers(limit: number=10, skip: number=0) {
+        const res = await fetch(`https://dummyjson.com/users?limit=${limit}&skip=${skip}`);
+        const data = await res.json();
+        return data;
+    }
+
+    return {
+        severData: await getUsers(limit, skip)
+    };
+});
+```
+
+
+---
+
+```js
+<script lang="ts">
+    import type { PageData } from './$types';
+    export let data: PageData;
+
+    let pageSize = 10;
+    let totalItems = data.severData.total;
+    let totalPages = Math.ceil(totalItems / pageSize);
+</script>
+```
+
+
