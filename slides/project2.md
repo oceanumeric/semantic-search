@@ -86,7 +86,7 @@ https://dummyjson.com/products?limit=10&skip=10
 
 <br>
 
-Application Development = User Interface + Data
+> Application Development = User Interface + Data + Logic
 
 ---
 
@@ -201,3 +201,110 @@ export const load:PageServerLoad = (async ({ url }) => {
 ```
 
 
+---
+
+![pattern](./images/dynamic-pattern.png)
+
+
+---
+
+# Loading Data
+
+- One page for each product
+- `+page.svelte` is dynamicallly rendered
+
+<br>
+
+<a href="https://kit.svelte.dev/docs/load#using-url-data" target="_blank">SvelteKit Docs</a>
+
+---
+
+# Loading Data
+
+```bash
+# within the src folder
+.
+├── app.css
+├── app.d.ts
+├── app.html
+├── lib
+│   └── index.ts
+└── routes
+    ├── +layout.svelte
+    ├── +page.svelte
+    ├── products
+    │   ├── [id] # could be any name, e.g. [slug] or [productId]
+    │   ├── +page.server.ts
+    │   └── +page.svelte
+    └── users
+        ├── +page.server.ts
+        └── +page.svelte
+```
+
+> `[id]` again is the key of an object
+
+
+---
+
+# Loading Data
+
+```bash
+.
+├── app.css
+├── app.d.ts
+├── app.html
+├── lib
+│   └── index.ts
+└── routes
+    ├── +layout.svelte
+    ├── +page.svelte
+    ├── products
+    │   ├── [id]
+    │   │   ├── +page.server.ts  # talk to database and load data
+    │   │   └── +page.svelte   # render the page
+    │   ├── +page.server.ts
+    │   └── +page.svelte
+    └── users
+```
+
+---
+
+# URL Data and Page Data
+
+```js
+import type { PageServerLoad } from './$types';
+import { error } from '@sveltejs/kit';
+
+
+export const load:PageServerLoad = (async ({ url, params }) => {
+    console.log(url);  // URL object
+    console.log(params);  // page data
+})
+```
+
+<br>
+
+<a href="https://kit.svelte.dev/docs/load#page-data" target="_blank"> SvelteKit Docs </a>
+
+
+---
+
+```bash
+# url data via url
+URL {
+  href: 'http://localhost:5173/products/2',
+  origin: 'http://localhost:5173',
+  protocol: 'http:',
+  username: '',
+  password: '',
+  host: 'localhost:5173',
+  hostname: 'localhost',
+  port: '5173',
+  pathname: '/products/2',
+  search: '',
+  searchParams: URLSearchParams {},
+  hash: ''
+}
+# page data via params
+{ id: '2' }
+```

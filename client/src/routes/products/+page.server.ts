@@ -12,13 +12,13 @@ export const load:PageServerLoad = (async ({ url }) => {
     }
     
     // function to get data from API
-    async function getUsers(limit: number=10, skip: number=0) {
-        const res = await fetch(`https://dummyjson.com/users?limit=${limit}&skip=${skip}`);
+    async function getProducts(limit: number=10, skip: number=0) {
+        const res = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`);
         const data = await res.json();
         return data;
     }
 
     return {
-        severData: await getUsers(limit, skip)
+        severData: await getProducts(limit, skip)
     };
 });
