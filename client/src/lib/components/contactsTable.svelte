@@ -43,7 +43,7 @@
 					</td>
 					<td>{contact.email}</td>
 					<th>
-						<form method="POST" action="?/delete" use:enhance>
+						<form method="POST" action="?/delete">
 							<input type="hidden" name="id" hidden value={contact.id} />
 							<button class="bg-pink-700 text-white">Delete</button>
 						</form>
