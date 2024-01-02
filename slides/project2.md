@@ -5,7 +5,7 @@ paginate: true
 ---
 
 
-# Project 2: Routing 
+# Project 2: Routing and Loading Data
 
 Fei Wang (Michael) :heart: AI
 
@@ -22,10 +22,11 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 # Show Cases 
 
 
-
 ---
 
 # Inspiration
+
+![bg right:40% 80%](https://logos.flamingtext.com/Word-Logos/more-design-china-name.png)
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/G-tafjJzfQo?si=94-mOj-lTAo1PxcT&amp;start=64" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -362,6 +363,7 @@ export const load:PageServerLoad = (async ({ url, params }) => {
 
 - <a href="https://dummyjson.com/docs" target="_blank">DummyJSON</a> is a mock API
 - We can use <a href="https://fastapi.tiangolo.com/#create-it" target="_blank">FastAPI</a> to create our own API
+- Reflections: <a href="https://chat.openai.com/share/19bd8c17-1ca4-40f6-98fb-cf495afac847" target="_blank">Review of Project 1</a>
 
 <img class="landing-img" src="https://media.giphy.com/media/lUZwWoJfL0c0HCIDRP/giphy.gif">
 
