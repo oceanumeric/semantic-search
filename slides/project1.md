@@ -18,6 +18,15 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 
 ---
 
+# Show Cases
+
+## A simple blog
+
+- one is client side rendering
+- one is server side rendering
+
+---
+
 # Key Points
 
 - Why SSR/CSR?
