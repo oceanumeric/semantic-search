@@ -5,7 +5,7 @@
 <div class="container mx-auto w-full">
 	<div class="flex w-full items-center">
 		<div class="w-1/2">
-			<p class="font-medium">SvelteKit Pagination</p>
+			<a href="/" class="font-medium">SvelteKit Routing and Loading Data</a>
 		</div>
 		<div class="w-1/2">
 			<nav class="flex justify-end">

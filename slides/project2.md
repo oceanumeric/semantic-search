@@ -355,3 +355,17 @@ export const load:PageServerLoad = (async ({ url, params }) => {
 	export let data: PageData;  // after the page is loaded
 </script>
 ```
+
+---
+
+# Why do we need FastAPI?
+
+- <a href="https://dummyjson.com/docs" target="_blank">DummyJSON</a> is a mock API
+- We can use <a href="https://fastapi.tiangolo.com/#create-it" target="_blank">FastAPI</a> to create our own API
+
+<img class="landing-img" src="https://media.giphy.com/media/lUZwWoJfL0c0HCIDRP/giphy.gif">
+
+
+---
+
+![bg](https://media.giphy.com/media/f8CXXtWWt2RZfwUkXO/giphy.gif)
