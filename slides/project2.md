@@ -328,3 +328,30 @@ export const load:PageServerLoad = (async ({ url, params }) => {
     return {serverData: productData}
 })
 ```
+
+
+---
+
+# Takeaways
+
+- SvelteKit Docs is your best friend
+- Routing is the key to a dynamic website
+    - *filesystem-based router*
+    - `src/routes` is the root
+    - `src/routes/users` is a subfolder
+    - `src/routes/product/[id]` creates a route with a parameter, `id`
+- Loading data from `+server.page.ts`
+    - `url` data
+    - `form` data
+
+
+---
+
+
+```js
+<script lang="ts">
+    import { page } from '$app/stores';
+	import type { PageData } from './$types';
+	export let data: PageData;  // after the page is loaded
+</script>
+```
