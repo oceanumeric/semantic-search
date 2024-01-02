@@ -8,10 +8,3 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-.venv
-/venv
-
-__pycache__/
-.pyc*
-*.pyc
-main.cpython-*.pyc
