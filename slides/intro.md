@@ -114,3 +114,13 @@ The whole course will be divided into 3 parts:
 # Before we start, buckle up with a new :keyboard:
 
 ![h:60%](./images/keyboard.png)
+
+
+---
+
+# Assumptions
+
+- You have basic knowledge of `Python`
+- You have basic knowledge of `JavaScript`
+- You have installed `Python 3.8+` and `Node.js 16+`
+- You have installed `VSCode` and relevant extensions
