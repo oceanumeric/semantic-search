@@ -312,3 +312,25 @@ export const actions:Actions = {
     }
 }
 ```
+
+---
+
+# Wrap Up
+
+- SvelteKit is a full-stack framework
+- Blend the frontend and backend together
+    - `+page.svelte` is the html template (`jinja` in `flask` or `fastapi`)
+    - `+page.server.ts` is the server-side logic (data fetching, form actions)
+        - `load` is the place to load data at the initial page load
+        - `actions` is the place to handle form actions
+    - two ways to handle interactions:
+        - `url` path and query parameters
+        - `form` actions
+- `flowbite` is the ui library you can use to build components
+- `fastapi` handles the AI service
+- `tauri` is the desktop app framework we will use to build the desktop app: <a href="https://tauri.app/" target="_blank"> Tauri </a>
+
+
+--- 
+
+![bg h:80%](https://media.giphy.com/media/XreQmk7ETCak0/giphy.gif)
