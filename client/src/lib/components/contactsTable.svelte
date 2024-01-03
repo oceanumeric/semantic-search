@@ -3,53 +3,58 @@
 	export let contacts = [];
 </script>
 
-<div class="overflow-x-auto w-full mt-6">
-	<table class="table w-full">
-		<!-- head -->
-		<thead>
-			<tr class="bg-gray-200">
-				<th>
-				</th>
-				<th>Name</th>
-				<th>Job</th>
-				<th>Email</th>
-				<th>Delete?</th>
-			</tr>
-		</thead>
-		<tbody>
+
+
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Email
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Company
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Job Title
+                </th>
+				<th scope="col" class="px-6 py-3">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
 			{#each contacts as contact}
-				<tr class="text-center">
-					<th>
-						<label>
-							<input type="checkbox" class="checkbox" />
-						</label>
-					</th>
-					<td>
-						<div class="flex items-center space-x-3 pl-44">
+				<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+					<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						<div class="flex items-center space-x-3">
+							<div>
+								<div class="font-bold">{contact.name}</div>
+							</div>
 							<div class="avatar">
 								<div class="mask mask-squircle w-12 h-12">
 									<img src="https://i.pravatar.cc/150?u={contact.name}" alt={contact.name} />
 								</div>
 							</div>
-							<div>
-								<div class="font-bold">{contact.name}</div>
-							</div>
-						</div>
-					</td>
-					<td>
-						{contact.company}
-						<br />
-						<span class="badge badge-ghost badge-sm">{contact.job}</span>
-					</td>
-					<td>{contact.email}</td>
-					<th>
-						<form method="POST" action="?/delete">
-							<input type="hidden" name="id" hidden value={contact.id} />
-							<button class="bg-pink-700 text-white">Delete</button>
-						</form>
 					</th>
+					<td class="px-6 py-4">
+						{contact.email}
+					</td>
+					<td class="px-6 py-4">
+						{contact.company}
+					</td>
+					<td class="px-6 py-4">
+						{contact.job}
+					</td>
+					<td class="px-6 py-4">
+						<input type="hidden" name="id" value={contact.id} />
+						<button type="submit" class="text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Delete</button>
+					</td>
 				</tr>
 			{/each}
-		</tbody>
-	</table>
+        </tbody>
+    </table>
 </div>

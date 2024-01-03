@@ -147,3 +147,13 @@ export const actions:Actions = {
     },
 }
 ```
+
+--- 
+
+# How to build a component
+
+- Using `flowbite` <a href="https://flowbite.com/docs/components/tables/" target="_blank"> Table </a> as an example
+
+- `import` the component
+
+- example: `contactsTable.svelte`
