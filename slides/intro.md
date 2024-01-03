@@ -124,3 +124,14 @@ The whole course will be divided into 3 parts:
 - You have basic knowledge of `JavaScript`
 - You have installed `Python 3.8+` and `Node.js 16+`
 - You have installed `VSCode` and relevant extensions
+
+
+---
+
+# Hello World with HTML
+
+- <a href="https://chat.openai.com/share/1e2f279f-881a-4622-ab20-340547138752" target="_blank">ChatGPT</a>
+
+```bash
+file:///Users/Michael/Desktop/foo.html
+```
