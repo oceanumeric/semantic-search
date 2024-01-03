@@ -1,13 +1,14 @@
 <script lang="ts">
     import { page } from '$app/stores';
 	import type { PageData } from './$types';
-	export let data: PageData;
+	export let data: PageData;  // never change this line
 
 	let pageSize = 10;
 	let totalItems = data.severData.total;
 	let totalPages = Math.ceil(totalItems / pageSize);
     $: currentPage = (Number($page.url.searchParams.get('skip')) || 0) / pageSize;
 </script>
+
 
 <div class="mx-10">
 	<h1 class="my-5">Users</h1>

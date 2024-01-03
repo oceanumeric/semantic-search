@@ -53,8 +53,10 @@ Our website needs to respond to different URLs and render different content base
 # Key Concepts
 
 - `+page.svelte` : Page Component
+    - `html` : what the user sees
 - `+page.ts` : load some data before it can be rendered
 - `+page.server.ts` : server-side rendering (without exposing the endpoint to the client)
+    - `data` and `logics` are hidden from the client
 - `+layout.svelte` : Layout Component (e.g. Navbar, Footer) via `slot`
 
 <br>
@@ -77,9 +79,16 @@ Our website needs to respond to different URLs and render different content base
 
 # Example: DummyJSON
 
+- Users send the following request to the server
+
 ```
+# query with params (limit, skip)
 https://dummyjson.com/products?limit=10&skip=10
+# url params
+http://localhost:5173/products/6
 ```
+
+- How could we map the request to the data?
 
 <br>
 
@@ -124,12 +133,52 @@ page.server.ts load URL {
   hostname: 'localhost',
   port: '5173',
   pathname: '/',
-  search: '',
+  search: '',  # search is set as default for query
   searchParams: URLSearchParams {},
   hash: ''
 }
 ```
 
+---
+```js
+This is url.searchParams bound URLSearchParams { 'limit' => '10', 'skip' => '60' }
+This is url URL {
+  href: 'http://localhost:5173/users?limit=10&skip=60&select=3',
+  origin: 'http://localhost:5173',
+  protocol: 'http:',
+  username: '',
+  password: '',
+  host: 'localhost:5173',
+  hostname: 'localhost',
+  port: '5173',
+  pathname: '/users',
+  search: '?limit=10&skip=60&select=3',
+  searchParams: URLSearchParams { 'limit' => '10', 'skip' => '60', 'select' => '3' },
+  hash: ''
+}
+This is url.searchParams bound URLSearchParams { 'limit' => '10', 'skip' => '60', 'select' => '3' }
+```
+
+---
+
+```js
+export const load:PageServerLoad = (async ({ url }) => {
+    // in case user enters a string instead of a number
+    const limit = Number(url.searchParams.get('limit')) || 10;
+	const skip = Number(url.searchParams.get('skip')) || 0;
+
+    // function to get data from API
+    async function getUsers(limit: number=10, skip: number=0) {
+        const res = await fetch(`https://dummyjson.com/users?limit=${limit}&skip=${skip}`);
+        const data = await res.json();
+        return data;
+    }
+
+    return {
+        severData: await getUsers(limit, skip)
+    };
+});
+```
 
 ---
 
@@ -199,6 +248,10 @@ export const load:PageServerLoad = (async ({ url }) => {
     let totalItems = data.severData.total;
     let totalPages = Math.ceil(totalItems / pageSize);
 </script>
+
+{#each data.severData.users as user}
+    <p>{user.id} - {user.email}</p>
+{/each}
 ```
 
 
@@ -213,6 +266,7 @@ export const load:PageServerLoad = (async ({ url }) => {
 
 - One page for each product
 - `+page.svelte` is dynamicallly rendered
+- `<a class="underline" href="/products/{product.id}">Link</a></p>`
 
 <br>
 
@@ -341,6 +395,7 @@ export const load:PageServerLoad = (async ({ url, params }) => {
     - `src/routes` is the root
     - `src/routes/users` is a subfolder
     - `src/routes/product/[id]` creates a route with a parameter, `id`
+    - `src/routes/product/[keyName]` creates a route with a parameter, `keyName`
 - Loading data from `+server.page.ts`
     - `url` data
     - `form` data
