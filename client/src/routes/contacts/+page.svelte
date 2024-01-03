@@ -4,10 +4,8 @@
   import { enhance } from '$app/forms';
 	import Alert from '$lib/components/Alert.svelte';
     
-  export let data: PageData;
-  export let form;
-
-  console.log(form);
+  export let data: PageData;  // all about page data
+  export let form;  // all about form data
 </script>
 
 

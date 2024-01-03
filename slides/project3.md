@@ -73,6 +73,15 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 >
 ```
 
+--- 
+
+# Big Picture
+
+- `+page.svelte` is the html template
+- `+page.server.ts` is the server-side logic (data fetching, form actions)
+- `flowbite` is the ui library you can use to build components
+- `tauri` is the desktop app framework we will use to build the desktop app: <a href="https://tauri.app/" target="_blank"> Tauri </a>
+
 
 ---
 
@@ -96,6 +105,19 @@ export const actions:Actions = {
     create: async ({ request }) => {
         const formData = await request.formData();
     },
+}
+```
+
+---
+
+```
+FormData {
+  [Symbol(state)]: [
+    { name: 'name', value: 'Fei Wang' },
+    { name: 'email', value: 'numerical.ocean@gmail.com' },
+    { name: 'company', value: 'Goethe University Frankfurt' },
+    { name: 'jobTitle', value: 'NLP Researcher' }
+  ]
 }
 ```
 
@@ -148,6 +170,51 @@ export const actions:Actions = {
 }
 ```
 
+---
+
+# Logic
+
+```js
+create: async ({ request }) => {
+    const formData = await request.formData();
+
+    console.log(formData);
+
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const company = formData.get('company');
+    const job = formData.get('jobTitle');
+
+    const id = crypto.randomUUID()
+    const contact = { id, name, email, company, job}
+
+    contacts.push(contact);
+
+    return {success: true, contact};
+},
+```
+
+---
+
+```js
+<form method="POST" action="?/delete" use:enhance>
+    <input type="hidden" name="id" value={contact.id} />
+    <button type="submit">Delete</button>
+</form>
+```
+
+```js
+// +page.server.ts
+// delete action
+delete: async ({ request }) => {
+    const formData = await request.formData();
+    const id = formData.get('id');
+
+    contacts = contacts.filter(contact => contact.id !== id);
+
+    return {success: true};
+}
+```
 --- 
 
 # How to build a component
@@ -178,6 +245,25 @@ export const actions:Actions = {
 
 ---
 
+```js
+// validate data
+if (name.length < 3) {
+    return fail(
+        400,
+        {
+            error: true,
+            message: 'Name must be at least 3 characters long.',
+            // no need to send the form data back to the client
+            email,
+            company,
+            job
+        }
+    )
+}
+```
+
+---
+
 - always use `?` when you pass variables to components or use optional chaining
 
 - `value={form?.company ?? ''}`:  <a href="https://chat.openai.com/share/c168688c-665c-4ad3-bdfb-7c3fab9e0c13" target="_blank">ChatGPT</a>
@@ -190,4 +276,39 @@ export const actions:Actions = {
 {/if}
 <br>
 <ContactsTable contacts={data?.contacts} />
+```
+
+
+
+---
+
+```js
+import type { PageServerLoad } from './$types';
+import type { Actions } from './$types';
+import { fail } from '@sveltejs/kit'
+
+let contacts = []
+
+// ---------------------------------------------
+export const load:PageServerLoad = (async ({url, params}) => {
+    return {contacts};
+});
+
+//---------------------------------------------
+export const actions:Actions = {
+    // create action
+    create: async ({ request }) => {
+        const formData = await request.formData();
+        // console.log(formData);
+        const name = formData.get('name');
+        contacts.push(contact);
+        return {success: true, contact};
+    },
+    // delete action
+    delete: async ({ request }) => {
+        const formData = await request.formData();
+        const id = formData.get('id');
+        return {success: true};
+    }
+}
 ```

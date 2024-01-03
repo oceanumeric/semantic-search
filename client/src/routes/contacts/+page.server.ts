@@ -30,10 +30,14 @@ export const actions:Actions = {
     create: async ({ request }) => {
         const formData = await request.formData();
 
+        // console.log(formData);
+
         const name = formData.get('name');
         const email = formData.get('email');
         const company = formData.get('company');
         const job = formData.get('jobTitle');
+
+    
 
         // validate data
         if (name.length < 3) {
