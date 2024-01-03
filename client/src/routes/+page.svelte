@@ -6,3 +6,8 @@
 		<a href="/contacts" class="btn btn-primary max-w-xs">Contacts</a>
 	</div>
 </div>
+
+
+<div class="h-screen flex items-center justify-center">
+	<img src="https://media.giphy.com/media/c1Zf0R8KvtSCI/giphy.gif" alt="loading" />
+</div>

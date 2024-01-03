@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
+import { fail } from '@sveltejs/kit'
 
 let contacts = [
     {
@@ -33,6 +34,21 @@ export const actions:Actions = {
         const email = formData.get('email');
         const company = formData.get('company');
         const job = formData.get('jobTitle');
+
+        // validate data
+        if (name.length < 3) {
+            return fail(
+                400,
+                {
+                    error: true,
+                    message: 'Name must be at least 3 characters long.',
+                    // no need to send the form data back to the client
+                    email,
+                    company,
+                    job
+                }
+            )
+        }
 
         const id = crypto.randomUUID()
         const contact = {

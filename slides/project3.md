@@ -157,3 +157,37 @@ export const actions:Actions = {
 - `import` the component
 
 - example: `contactsTable.svelte`
+
+
+
+--- 
+
+# There are more we could do with Svelte Forms
+
+- Validation
+    - client-side: <a href="https://www.w3schools.com/tags/att_input_pattern.asp" target="_blank"> pattern </a>
+    - server-side: we will implement it together
+
+- Error Handling
+
+- Form State Management
+
+- A useful library: <a href="https://superforms.rocks/" target="_blank">Super Forms</a>
+
+- Login and Authentication
+
+---
+
+- always use `?` when you pass variables to components or use optional chaining
+
+- `value={form?.company ?? ''}`:  <a href="https://chat.openai.com/share/c168688c-665c-4ad3-bdfb-7c3fab9e0c13" target="_blank">ChatGPT</a>
+
+<br>
+
+```js
+{#if form?.error}
+      <Alert message={form?.message} />
+{/if}
+<br>
+<ContactsTable contacts={data?.contacts} />
+```
