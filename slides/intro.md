@@ -36,6 +36,8 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 - The first version is not very organized
 - The first version did not talk about `FastAPI` that much 
 - Now we will try to make it more organized and more complete
+    - also with beautiful slides :butterfly:
+- To promote HyperGI
 
 > hey nice job on such an awesome course if possible please do more such course but in a single video with different sections and also try other stack as well but with svelte as main front end framework. for  eg:- database through supabase,..
 
@@ -49,6 +51,9 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 
 ![bg h:70%](./images/chanel-analytics.png)
 
+---
+
+# So, let's do an ambitious project together! :rocket:
 
 ---
 
@@ -106,6 +111,6 @@ The whole course will be divided into 3 parts:
 
 ---
 
-# Before we start, bulk up with a new keyboard
+# Before we start, buckle up with a new :keyboard:
 
 ![h:60%](./images/keyboard.png)
