@@ -1,0 +1,37 @@
+#!/bin/bash
+# download data online and upload to google bucket directly
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_book_works.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_book_works.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_book_authors.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_book_authors.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_book_series.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_book_series.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_books.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_book_genres_initial.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_book_genres_initial.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_books_children.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books_children.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_books_comics_graphic.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books_comics_graphic.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_books_fantasy_paranormal.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books_fantasy_paranormal.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_books_history_biography.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books_history_biography.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_books_mystery_thriller_crime.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books_mystery_thriller_crime.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_books_poetry.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books_poetry.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_books_romance.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books_romance.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_books_young_adult.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_books_young_adult.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_interactions_children.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_children.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_interactions_comics_graphic.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_comics_graphic.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_interactions_fantasy_paranormal.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_fantasy_paranormal.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_interactions_history_biography.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_history_biography.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_interactions_mystery_thriller_crime.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_mystery_thriller_crime.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_interactions_poetry.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_poetry.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_interactions_romance.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_romance.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_interactions_young_adult.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_young_adult.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_reviews_children.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_children.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_reviews_comics_graphic.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_comics_graphic.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_reviews_fantasy_paranormal.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_fantasy_paranormal.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_reviews_history_biography.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_history_biography.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_reviews_mystery_thriller_crime.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_mystery_thriller_crime.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_reviews_poetry.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_poetry.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_reviews_romance.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_romance.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/goodreads_reviews_young_adult.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_young_adult.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/book_id_map.csv | gsutil cp - gs://data_collection_bucket/goodreads/book_id_map.csv
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/user_id_map.csv | gsutil cp - gs://data_collection_bucket/goodreads/user_id_map.csv
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_interactions.csv | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions.csv
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_reviews_dedup.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_dedup.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_reviews_spoiler.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_spoiler.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_reviews_spoiler_raw.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_spoiler_raw.json.gz
