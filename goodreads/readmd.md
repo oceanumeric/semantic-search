@@ -10,11 +10,7 @@ Here, we will write some script to download the data we need:
 ## Instructions
 
 - `data_files.csv` gives the name of the files 
-- `download.sh` is the script to download the data if you want to download the data locally
+- `download.sh` is the script to download the data from the website and save to `data` folder
+- `gcloud.sh` is the script to download the data and upload to Google Cloud Storage
 
-
-## Download the data to Google Cloud Storage directly
-
-```
-curl http://some.url.com/some/file.tar | gsutil cp - gs://YOUR_BUCKET_NAME/file.tar
-```
+To use `gcloud.sh`, you need to have `gsutil` installed and have a Google Cloud Storage account. You need to change the `BUCKET_NAME` to your own bucket name after `gcloud init`.

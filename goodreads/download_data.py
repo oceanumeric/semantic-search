@@ -33,7 +33,7 @@ def construct_urls():
     data_info.to_csv("data_info.csv", index=False)
 
 
-def create_bash_file():
+def create_bash_file_gcloud():
     data_info = pd.read_csv("data_info.csv")
 
     google_bucket_name = "data_collection_bucket/goodreads"
@@ -46,9 +46,33 @@ def create_bash_file():
         command = f'curl {url} | gsutil cp - gs://{google_bucket_name}/{fname}'
         commands.append(command)
 
-    with open("download_data.sh", "w") as f:
+    with open("gcloud.sh", "w") as f:
         f.write("#!/bin/bash\n")
         f.write("# download data online and upload to google bucket directly\n")
+        for command in commands:
+            f.write(command)
+            f.write("\n")
+
+
+
+def create_bash_file():
+    data_info = pd.read_csv("data_info.csv")
+
+    # only need to download complete data
+    data_info = data_info[data_info['ftype'] == 'complete']
+
+    commands = []
+
+    for idx, row in data_info.iterrows():
+        fname = row['fname']
+        url = row['url']
+        # download to local and save to data folder
+        command = f'curl {url} > data/{fname}'
+        commands.append(command)
+
+    with open("download.sh", "w") as f:
+        f.write("#!/bin/bash\n")
+        f.write("# download data online and save to local\n")
         for command in commands:
             f.write(command)
             f.write("\n")
@@ -57,4 +81,5 @@ def create_bash_file():
 if __name__ == "__main__":
     # run construct_urls() first
     # construct_urls()
+    # create_bash_file_gcloud()
     create_bash_file()
