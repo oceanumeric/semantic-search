@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def construct_urls():
-    file_names = pd.read_csv("data_files.csv")
+    file_names = pd.read_csv("./data/data_files.csv")
 
     file_name_type_mapping = dict(zip(file_names['name'].values, file_names['type'].values))
 
@@ -30,11 +30,11 @@ def construct_urls():
 
     
     # save to csv
-    data_info.to_csv("data_info.csv", index=False)
+    data_info.to_csv("./data/data_info.csv", index=False)
 
 
 def create_bash_file_gcloud():
-    data_info = pd.read_csv("data_info.csv")
+    data_info = pd.read_csv("./data/data_info.csv")
 
     google_bucket_name = "data_collection_bucket/goodreads"
 

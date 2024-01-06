@@ -14,3 +14,13 @@ Here, we will write some script to download the data we need:
 - `gcloud.sh` is the script to download the data and upload to Google Cloud Storage
 
 To use `gcloud.sh`, you need to have `gsutil` installed and have a Google Cloud Storage account. You need to change the `BUCKET_NAME` to your own bucket name after `gcloud init`.
+
+
+## Comments
+
+There are many tools for doing data ETL. Unless you are doing some business that has a strong __pattern__ in the data, you should not spend too much time on data ETL.
+
+All the model tools of doing ETL are designed for firms that have the consistent data flow pattern. For data projects having different data sources, it is better to use a general purpose language to do the ETL. For example, Python, R, and bash are all good choices.
+
+- https://matt.might.net/articles/intro-to-make/
+- https://merely-useful.tech/py-rse/automate.html
