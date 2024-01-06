@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: rose-pine-moon
+theme: rose-moon
 paginate: true
 ---
 
@@ -147,3 +147,96 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 ---
 
 ![bg fit](./images/offcloud.png)
+
+
+
+---
+
+# Roadmap
+
+- Introduction to big data analytics
+
+- Download the data from Google Cloud Storage and `bash` scripting
+
+- Data preprocessing with `duckdb` in R or Python
+
+- Data analysis with `duckdb` in R or Python
+
+
+---
+
+# Introduction to big data analytics :elephant:
+
+
+---
+
+# Big data analytics in the era of AI: benchmark
+
+- <a href="https://h2oai.github.io/db-benchmark/" target="_blank"> Benchmark </a>
+- Guidances:
+    - CSV (<= 50 GB): `data.table` in R
+    - CSV (>= 50 GB): `duckdb` in R or Python
+    - Json (>= 5 GB): `duckdb` in R or Python
+    - Parquet (>= 5 GB): `duckdb` in R or Python
+- Therefore, you only need to know:
+    - `data.table` in R
+    - `pandas` in Python
+    - `duckdb` in R or Python
+
+
+
+---
+
+![bg fit](https://www.boardinfinity.com/blog/content/images/2023/05/OLAP-VS-OLTP.png)
+
+
+---
+
+![bg fit](./images/andy-pavlo.png)
+
+
+
+---
+
+# DuckDB: a new tool
+
+- <a href="https://duckdb.org/" target="_blank"> DuckDB </a>
+- Big data analytics
+- SQL
+- library in R and Python
+- <a href="https://vickiboykis.com/2022/12/05/the-cloudy-layers-of-modern-day-programming/" target="_blank"> The Cloudy Layers of Modern-Day Programming </a>
+- <a href="https://vickiboykis.com/2023/01/17/welcome-to-the-jungle-we-got-fun-and-frames/" target="_blank"> Welcome to the Jungle, We Got Fun and Frames </a>
+
+
+---
+##  DuckDB: a new tool
+
+- <a href="https://speakerdeck.com/higgi13425/big-data-with-arrow-and-duckdb?slide=6" target="_blank"> Big Data with Arrow and DuckDB </a>
+- <a href="https://bwlewis.github.io/duckdb_and_r/taxi/taxi.html" target="_blank"> DuckDB and R </a>
+
+
+<img style="width:80%" src="./images/com-structure2.png">
+
+
+---
+
+## DuckDB: a new tool
+
+<a href="https://colorado.posit.co/rsc/bigger-data-prez/#12" target="_blank"> Bigger Data </a>
+
+<img style="width:70%" src="./images/data-warehouse.png">
+
+
+---
+
+# We did not talk about GPU based data analytics :seedling:
+
+
+--- 
+
+# Install DuckDB in R
+
+
+```r
+install.packages("duckdb")
+```

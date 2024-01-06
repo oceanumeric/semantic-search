@@ -15,6 +15,7 @@ Here, we will write some script to download the data we need:
 
 To use `gcloud.sh`, you need to have `gsutil` installed and have a Google Cloud Storage account. You need to change the `BUCKET_NAME` to your own bucket name after `gcloud init`.
 
+> Tips: it is better to download the data to your local machine from google cloud storage. It is faster than downloading from the website.
 
 ## Comments
 

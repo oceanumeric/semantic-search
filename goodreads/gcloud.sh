@@ -35,3 +35,4 @@ curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_inte
 curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_reviews_dedup.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_dedup.json.gz
 curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_reviews_spoiler.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_spoiler.json.gz
 curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_reviews_spoiler_raw.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_reviews_spoiler_raw.json.gz
+curl https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/goodreads_interactions_dedup.json.gz | gsutil cp - gs://data_collection_bucket/goodreads/goodreads_interactions_dedup.json.gz
