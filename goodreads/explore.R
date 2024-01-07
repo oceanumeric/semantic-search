@@ -18,6 +18,10 @@ con <- dbConnect(duckdb(), dbdir = ":memory:")
 dbExecute(con, "INSTALL httpfs;")
 dbExecute(con, "LOAD httpfs;")
 
+# install json 
+dbExecute(con, "INSTALL json;")
+dbExecute(con, "LOAD json;")
+
 
 dbGetQuery(con,
   "SELECT species,
@@ -28,3 +32,15 @@ dbGetQuery(con,
 
 
 # it only works well for small datasets
+dbGetQuery(con,
+  "describe
+  select * from read_json_auto('./data/goodreads_books.json.gz')") %>%
+  kable()
+
+
+dbGetQuery(con,
+  "select isbn text_reviews_count, country_code, average_rating,
+  language_code, url, book_id, title
+  from read_json_auto('./data/goodreads_books.json.gz')
+  using sample 5;") %>%
+  kable()
