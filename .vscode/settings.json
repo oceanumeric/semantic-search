@@ -1,0 +1,5 @@
+{
+    "python.analysis.ignore": [
+        "./goodreads/analyze_data.py",
+    ]
+}

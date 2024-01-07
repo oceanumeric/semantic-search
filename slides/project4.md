@@ -2,6 +2,7 @@
 marp: true
 theme: rose-moon
 paginate: true
+math: katex
 ---
 
 
@@ -181,7 +182,7 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 - Therefore, you only need to know:
     - `data.table` in R
     - `pandas` in Python
-    - `duckdb` in R or Python
+    - `duckdb` in R or Python (SQL)
 
 
 
@@ -198,7 +199,7 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 
 ---
 
-# DuckDB: a new tool
+# DuckDB: a new tool with old SQL
 
 - <a href="https://duckdb.org/" target="_blank"> DuckDB </a>
 - Big data analytics
@@ -234,9 +235,519 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 
 --- 
 
-# Install DuckDB in R
+# Install DuckDB in Ptthon or R
+
+```python
+pip install duckdb  # python
+```
 
 
 ```r
-install.packages("duckdb")
+install.packages("duckdb")  # R
 ```
+
+```bash
+# you can also install it in bash
+# but i don't know why I could not manage to install it for
+# ubuntu 20.04 x86_64
+# with command line installed, you can do this
+duckdb --version
+duckdb
+# and then run sql directly
+select 42;
+```
+
+
+---
+
+# Make sure you have alread downloaded the data :dart:
+
+- have enough RAM (>= 16GB)
+- have enough disk space (>= 50GB)
+
+
+---
+
+# Benchmark :racehorse:
+
+- compare `pandas` and `duckdb` in Python
+- I created a scripe file called `duckdb_profile.py`
+- benchmark two dimensions:
+    - time
+    - memory usage
+- Input data: `goodreads_books.json.gz` (1.94 GB, around 8-9 GB uncompressed)
+
+
+---
+
+# Benchmark :panda_face:
+
+```python
+import os
+import time
+import duckdb
+import pandas as pd
+from dotenv import load_dotenv
+from memory_profiler import profile
+
+if __name__ == "__main__":
+    start = time.time() 
+    df = pd.read_json("./data/goodreads_books.json.gz", lines=True)
+    end = time.time()
+    print(end - start)  # computer crashed 💥
+    # WARNING: do not use pandas to read a large json file
+```
+
+---
+
+# Benchmark :duck:
+
+```python
+@profile
+def read_json():
+    start = time.time()
+    duckdb.read_json("./data/goodreads_books.json.gz").show()
+    end = time.time()
+    print(end - start)  
+
+if __name__ == "__main__":
+    read_json()  # 6 seconds for 1.94 GB data
+```
+
+
+---
+
+# Benchmark :duck:
+
+```bash
+$ python duckdb_profile.py
+6.171117067337036
+Filename: /home/michael/Github/semantic-search/goodreads/duckdb_profile.py
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    14    106.7 MiB    106.7 MiB           1   @profile
+    15                                         def read_json():
+    16    106.7 MiB      0.0 MiB           1       start = time.time()
+    17   1231.2 MiB   1124.5 MiB           1       duckdb.read_json("./data/goodreads_books.json.gz").show()
+    18   1231.2 MiB      0.0 MiB           1       end = time.time()
+    19   1231.2 MiB      0.0 MiB           1       print(end - start)  # 6 seconds 
+```
+
+
+---
+
+![bg fit](https://media.giphy.com/media/lT3D3j54UstUs/giphy.gif)
+
+
+---
+
+# Benchmark :duck:
+
+```bash
+┌────────────┬───┬──────────────────────┬──────────────────────┐
+│    isbn    │ … │        title         │ title_without_series │
+│  varchar   │   │       varchar        │       varchar        │
+├────────────┼───┼──────────────────────┼──────────────────────┤
+│ 0312853122 │ … │ W.C. Fields: A Lif…  │ W.C. Fields: A Lif…  │
+│ 0743509986 │ … │ Good Harbor          │ Good Harbor          │
+│            │ … │ The Unschooled Wiz…  │ The Unschooled Wiz…  │
+│ 0743294297 │ … │ Best Friends Forever │ Best Friends Forever │
+│ 0850308712 │ … │ Runic Astrology: S…  │ Runic Astrology: S…  │
+│ 1599150603 │ … │ The Aeneid for Boy…  │ The Aeneid for Boy…  │
+│ 0425040887 │ … │ The Wanting of Lev…  │ The Wanting of Lev…  │
+│ 1934876569 │ … │ All's Fairy in Lov…  │ All's Fairy in Lov…  │
+│            │ … │ Playmaker: A Venom…  │ Playmaker: A Venom…  │
+│ 0922915113 │ … │ The Devil's Notebook │ The Devil's Notebook │
+│     ·      │ · │          ·           │          ·           │
+│     ·      │ · │          ·           │          ·           │
+│     ·      │ · │          ·           │          ·           │
+│ 8498381436 │ … │ Harry Potter y las…  │ Harry Potter y las…  │
+│ 9188877663 │ … │ Harry Potter och d…  │ Harry Potter och d…  │
+│ 9789671118 │ … │ Memoir Bukan Memoir  │ Memoir Bukan Memoir  │
+│            │ … │ Den bittra pajens …  │ Den bittra pajens …  │
+│ 0957142013 │ … │ Shadows              │ Shadows              │
+│ 0810127393 │ … │ My Journey: How On…  │ My Journey: How On…  │
+│            │ … │ Martin Arrowsmith    │ Martin Arrowsmith    │
+│ 161372280X │ … │ The Boy Behind the…  │ The Boy Behind the…  │
+│ 1611561310 │ … │ The Portal           │ The Portal           │
+│            │ … │ Quero crescer!       │ Quero crescer!       │
+├────────────┴───┴──────────────────────┴──────────────────────┤
+│ ? rows (>9999 rows, 20 shown)           29 columns (3 shown) │
+└──────────────────────────────────────────────────────────────┘
+
+6.171117067337036
+```
+
+---
+
+# Benchmark :duck:
+
+```python
+@profile
+def read_cloud_file():
+    db = duckdb.connect()
+    start = time.time()
+    # install httpfs
+    db.sql(f"""
+           INSTALL httpfs;
+           LOAD httpfs;
+           SET s3_endpoint = 'storage.googleapis.com';
+           SET s3_access_key_id = '{google_storage_key}';
+           SET s3_secret_access_key = '{google_storage_secret}';
+           """)
+    db.sql("""
+           select * from read_json_auto('s3://data_collection_bucket/goodreads/goodreads_books.json.gz');
+           """).show()
+    end = time.time()
+    print(end - start)  # 50 seconds
+```
+
+
+---
+
+# A good article about :duck:
+
+<a href="https://arrow.apache.org/blog/2021/12/03/arrow-duckdb/" target="_blank"> Arrow and DuckDB </a>
+
+---
+
+# Dive into the data :swimmer:
+
+- Two datasets:
+    - `goodreads_books.json.gz` (1.94 GB, around 8-9 GB uncompressed)
+    - `goodreads_reviews_dedup.json.gz` (4.98 GB, around 20-30 GB uncompressed)
+
+- we need to:
+    - understand the data
+    - link the data
+    - create a new dataset
+
+
+
+---
+
+# Book dataset
+
+- 2.36M books
+- 29 columns, such as author, title, description, etc.
+
+
+```bash
+┌──────────────────────┬────────────────────────────────────────────┬──────┬──────┬─────────┬───────┐
+│     column_name      │                column_type                 │ null │ key  │ default │ extra │
+├──────────────────────┼────────────────────────────────────────────┼──────┼──────┼─────────┼───────┤
+│         isbn         │                  VARCHAR                   │ YES  │ None │   None  │  None │
+│  text_reviews_count  │                  VARCHAR                   │ YES  │ None │   None  │  None │
+│     country_code     │                  VARCHAR                   │ YES  │ None │   None  │  None │
+│    language_code     │                  VARCHAR                   │ YES  │ None │   None  │  None │
+│   popular_shelves    │   STRUCT(count BIGINT, "name" VARCHAR)[]   │ YES  │ None │   None  │  None │
+│      ........        │                     ...                    │ ...  │ ...  │   ...   │  ...  │
+│         asin         │                  VARCHAR                   │ YES  │ None │   None  │  None │
+│         url          │                  VARCHAR                   │ YES  │ None │   None  │  None │
+│       book_id        │                   BIGINT                   │ YES  │ None │   None  │  None │
+│    ratings_count     │                  VARCHAR                   │ YES  │ None │   None  │  None │
+│       work_id        │                  VARCHAR                   │ YES  │ None │   None  │  None │
+│        title         │                  VARCHAR                   │ YES  │ None │   None  │  None │
+└──────────────────────┴────────────────────────────────────────────┴──────┴──────┴─────────┴───────┘
+```
+
+--- 
+
+# Columns of interest
+
+- Books dataset: `country_code` (for keyword search), `language_code` (for keyword search), `average_rating` (for display), `authors` (for display), ratings_count` (for display), `url` (for frontend)
+    - `book_id`
+    - `title`  (for embedding and search) 
+    - `description` (for embedding and search),
+
+- Reviews dataset
+    - `book_id`
+    - `user_id`
+    - `review_text` (for embedding and search)
+
+
+--- 
+
+# Reviews dataset
+
+- 15.7m reviews
+- 11 columns, such as book_id, user_id, review_text, etc.
+
+```bash
+┌──────────────┬─────────────┬──────┬──────┬─────────┬───────┐
+│ column_name  │ column_type │ null │ key  │ default │ extra │
+├──────────────┼─────────────┼──────┼──────┼─────────┼───────┤
+│   user_id    │     UUID    │ YES  │ None │   None  │  None │
+│   book_id    │    BIGINT   │ YES  │ None │   None  │  None │
+│  review_id   │     UUID    │ YES  │ None │   None  │  None │
+│    rating    │    BIGINT   │ YES  │ None │   None  │  None │
+│ review_text  │   VARCHAR   │ YES  │ None │   None  │  None │
+│  date_added  │   VARCHAR   │ YES  │ None │   None  │  None │
+│ date_updated │   VARCHAR   │ YES  │ None │   None  │  None │
+│   read_at    │   VARCHAR   │ YES  │ None │   None  │  None │
+│  started_at  │   VARCHAR   │ YES  │ None │   None  │  None │
+│   n_votes    │    BIGINT   │ YES  │ None │   None  │  None │
+│  n_comments  │    BIGINT   │ YES  │ None │   None  │  None │
+└──────────────┴─────────────┴──────┴──────┴─────────┴───────┘
+```
+
+
+---
+
+# Summary Statistics :bar_chart:
+
+- Some handy tools:
+    - Jupyter Notebook
+    - <a href="https://github.com/ploomber/jupysql" target="_blank"> JupyterSQL </a>
+        - `%sql` for one line SQL
+        - `%%sql` for multiple lines SQL
+        - do not put `#` in the SQL query
+- Best Practices:
+    - Use scripy for production
+    - Use Jupyter Notebook for exploration
+
+
+---
+
+```python
+%load_ext sql
+conn = duckdb.connect()
+%sql conn --alias duckdb
+
+# to receive feedback from SQL queries
+%config SqlMagic.feedback = False
+%config SqlMagic.displaylimit = None  # None means unlimited
+%config SqlMagic.style = "SINGLE_BORDER" 
+
+# some people like to use this
+# %config SqlMagic.autopandas = True
+# but this will make the notebook slow
+```
+
+```python
+%%sql column_info <<
+describe
+select * from read_json_auto('./data/goodreads_books.json.gz')
+```
+
+```python
+print(column_info)
+```
+
+---
+
+```python
+# this will not work as %%sql has to be the first line
+%%sql column_info <<
+describe
+select * from read_json_auto('./data/goodreads_books.json.gz')
+```
+
+```python
+%%sql column_info <<
+describe
+select * from read_json_auto('./data/goodreads_books.json.gz')
+print(column_info)  # this will not work as it is not sql query
+```
+
+
+---
+
+# Summary Statistics :bar_chart:
+
+- Distribution of `country_code`
+
+```bash
+┌──────────────┬─────────┐
+│ country_code │  count  │
+├──────────────┼─────────┤
+│      US      │ 2360165 │
+│              │   490   │
+└──────────────┴─────────┘
+```
+
+
+
+---
+
+- Distribution of `language_code`
+
+```bash
+┌───────────────┬─────────┐
+│ language_code │  count  │
+├───────────────┼─────────┤
+│               │ 1060153 │
+│      eng      │  708457 │
+│     en-US     │  91452  │
+│     en-GB     │  58358  │
+│      spa      │  54524  │
+│      ita      │  50902  │
+│      ara      │  42978  │
+│      fre      │  32046  │
+│      ger      │  30941  │
+│      ind      │  27291  │
+│      por      │  23452  │
+|      ···      │   ···   │
+│      nah      │    1    │
+│      btk      │    1    │
+└───────────────┴─────────┘
+```
+
+---
+
+> As we can see, we have a lot of missing values in `language_code`. This does not mean that the book is not in English. What's the share of English books for the books with missing `language_code`?
+
+- We need to sample the data
+- Use probability to estimate the share of English books for the books with missing `language_code`
+
+
+---
+
+# SQL: sampling in DuckDB
+
+```sql
+-- this one sample 10 rows first
+SELECT book_id, language_code, title, description
+FROM books
+WHERE language_code = ''
+USING SAMPLE 10
+```
+<br>
+
+```sql
+-- this one filter out the rows with missing language_code first
+-- and then sample 10 rows
+SELECT *
+FROM (SELECT book_id, language_code, title, description
+FROM books
+WHERE language_code = '')
+USING SAMPLE 10
+```
+
+
+---
+
+# Math: :game_die: 
+
+- <a href="https://oceanumeric.github.io/math/2023/02/probabilistic-thinking" target="_blank"> Probabilistic Thinking </a>
+- assume the share of English books for the books with missing `language_code` is $p$
+- if we sample 10 from the subset ($N=1060153$), what's the probability of getting 1
+non-English book?
+- typical hypergeometric distribution
+    - N is the total number of balls
+    - w is the number of white balls
+    - b is the number of black balls
+    - n is the number of draws
+    - k is the number of successes
+
+---
+
+# Math: :game_die: 
+
+$$
+\mathbb{P}(x = k) = \frac{\binom{w}{k} \binom{b}{n-k}}{\binom{N}{n}}
+$$
+
+<br>
+
+- $N=1060153$ books that have missing `language_code`
+- $w=1060153 \times p$ English books that have missing `language_code`
+- $b=1060153 \times (1-p)$ non-English books that have missing `language_code`
+- $n=10$ sample size
+- $k=1$ number of successes
+
+
+---
+
+# Math: :game_die: 
+
+- $N=1060153$ books that have missing `language_code`
+- $w=1060153 \times p$ English books that have missing `language_code`
+- $b=1060153 \times (1-p)$ non-English books that have missing `language_code`
+- $n=10$ sample size
+- $k=9$ number of successes (meaning we should get 9 English books out of 10 every time we sample 10 books)
+
+$$
+\mathbb{P}(x = 9) = \frac{\binom{w}{9} \binom{b}{1}}{\binom{N}{10}} \quad \text{what are values of w, b?}
+$$
+
+
+---
+
+# Math: :game_die: 
+
+$$
+\mathbb{P}(x = 9) = \frac{\binom{w}{9} \binom{b}{1}}{\binom{N}{10}} \quad \text{what are values of w, b?}
+$$
+
+- if $p = 0.8$, then  $\mathbb{P}(x = 9) = 0.2684$ 
+
+> if 80% of the books with missing `language_code` are in English, then we have 26.84% chance of getting 9 English books out of 10 every time we sample 10 books
+
+
+---
+
+# Math: :game_die:
+
+```python
+# sample 10 books with language_code = ''
+num_eng_books = [
+    9, 9, 10, 10, 9, 10, 9, 9, 10, 10
+]
+
+def hypergeometric_probability(N = 1060153, n = 10, k = 9, p=0.8):
+    """
+    p is the share of English books in the population
+    """
+    english_books = N * p
+    english_books = int(english_books)
+    non_english_books = N - english_books
+
+    prob = math.comb(english_books, k) * math.comb(non_english_books, n - k) / math.comb(N, n)
+
+    return prob
+```
+
+
+---
+
+<img style="width:87%" src="./images/prob-simulation.png">
+
+
+---
+
+# We will only use English books
+
+```sql
+CREATE TABLE books2 AS
+SELECT * FROM books
+WHERE language_code = 'eng' OR language_code = 'en-US' OR language_code = 'en-GB'
+```
+
+---
+
+# Unnesting
+
+- notice `authors` in `books` dataset is a list of dictionaries
+    - `[{'author_id': 99727, 'role': ''}]`
+    - `[{'author_id': 1654, 'role': ''}, {'author_id': 8134289, 'role': ''}]`
+- we need to use `UNNEST` to expand the list of dictionaries
+- reference: <a href="https://duckdb.org/docs/sql/query_syntax/unnest.html" target="_blank"> UNNEST </a>
+
+
+```sql
+SELECT unnest([{'author_id': 1654, 'role': ''}, {'author_id': 8134289, 'role': ''}], recursive := true)
+```
+
+
+---
+
+# Expand Table
+
+```sql
+SELECT book_id, title, authors, unnest(authors) AS author_info
+FROM books2
+USING SAMPLE 10
+```
+
+> The above query will expand the table based on the number of authors for each book

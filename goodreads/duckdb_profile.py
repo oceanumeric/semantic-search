@@ -60,11 +60,11 @@ if __name__ == '__main__':
     # Execute a query
     duckdb.sql('SELECT 42').show()
     # read json file
-    # read_json()
+    read_json()
     # read cloud file
     # read_cloud_file()
     # read and transform
-    read_and_transform()
+    # read_and_transform()
     # do not use jupyter notebook
     # it crashes the computer
 

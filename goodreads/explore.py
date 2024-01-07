@@ -31,7 +31,7 @@ def read_and_transform():
            language_code, url, book_id, title
            from read_json_auto('./data/goodreads_books.json.gz')
            using sample 5;
-           """).show(max_width=200)
+           """).show()
     
 
 
