@@ -1,5 +1,6 @@
 {
     "python.analysis.ignore": [
         "./goodreads/analyze_data.py",
-    ]
+    ],
+    "editor.codeLens": false
 }

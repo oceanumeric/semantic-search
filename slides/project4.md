@@ -751,3 +751,61 @@ USING SAMPLE 10
 ```
 
 > The above query will expand the table based on the number of authors for each book
+
+```bash
+┌──────────┬────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────────┐
+│ book_id  │                                  authors                                   │             author_info             │
+├──────────┼────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────┤
+│ 10082852 │                    [{'author_id': 568912, 'role': ''}]                     │  {'author_id': 568912, 'role': ''}  │
+│ 25777967 │ [{'author_id': 14123272, 'role': ''}, {'author_id': 14123273, 'role': ''}] │ {'author_id': 14123272, 'role': ''} │
+│ 25777967 │ [{'author_id': 14123272, 'role': ''}, {'author_id': 14123273, 'role': ''}] │ {'author_id': 14123273, 'role': ''} │
+│ 25528801 │                    [{'author_id': 7418796, 'role': ''}]                    │  {'author_id': 7418796, 'role': ''} │
+│ 23213117 │                    [{'author_id': 7178855, 'role': ''}]                    │  {'author_id': 7178855, 'role': ''} │
+│ 6972269  │                    [{'author_id': 414681, 'role': ''}]                     │  {'author_id': 414681, 'role': ''}  │
+│ 29772860 │ [{'author_id': 5701450, 'role': ''}, {'author_id': 14987844, 'role': ''}]  │  {'author_id': 5701450, 'role': ''} │
+│ 29772860 │ [{'author_id': 5701450, 'role': ''}, {'author_id': 14987844, 'role': ''}]  │ {'author_id': 14987844, 'role': ''} │
+└──────────┴────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────────┘
+```
+
+---
+
+# Did not expect SQL to be so powerful :flushed:
+
+
+```sql
+SELECT *, author_info['author_id'] AS author_id
+FROM (
+    SELECT book_id,  authors, unnest(authors) AS author_info
+    FROM books2
+    USING SAMPLE 10  
+)
+``` 
+
+```bash
+┌──────────┬──────────────────────────────────────────────┬───────────┐
+│ book_id  │                 author_info                  │ author_id │
+├──────────┼──────────────────────────────────────────────┼───────────┤
+│ 15156124 │      {'author_id': 2737333, 'role': ''}      │  2737333  │
+│  638745  │       {'author_id': 19758, 'role': ''}       │   19758   │
+│  638745  │ {'author_id': 310261, 'role': 'Contributor'} │   310261  │
+│  638745  │ {'author_id': 9883658, 'role': 'Translator'} │  9883658  │
+└──────────┴──────────────────────────────────────────────┴───────────┘
+```
+
+---
+
+# Join Tables :clap:
+
+```sql
+-- # create a new table books3
+-- # join books2 and authors
+-- # by extracting author_id from author_info column
+CREATE TABLE books3 AS
+SELECT b.*, author_info['author_id'] AS author_id, a.name
+FROM (
+    SELECT *, unnest(authors) AS author_info
+    FROM books2
+) AS b
+LEFT JOIN authors AS a ON b.author_info['author_id'] = a.author_id
+-- # now we get 1,239, 751 rows
+```
