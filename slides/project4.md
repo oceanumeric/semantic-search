@@ -1029,3 +1029,50 @@ dbGetQuery(con,
 |   38980|The Princess Diaries (The Princess Diaries, #1) |962b4066-0fe6-a561-c6fb-c78ff4cffd39 |
 |   38980|The Princess Diaries (The Princess Diaries, #1) |962b4066-0fe6-a561-c6fb-c78ff4cffd39 |
 ```
+
+
+---
+
+# Wrap up
+
+- Starting point of using `duckdb`
+
+```
+# in R
+con <- dbConnect(duckdb())  # in memory
+con <- dbConnect(duckdb(), dbdir = "goodreads.db")  # construct a database in the disk
+# in Python
+conn = duckdb.connect()  # in memory
+conn = duckdb.connect('goodreads.db')  # construct a database in the disk
+```
+
+- The results will be:
+    - erased when you close the connection if you use `:memory:`
+    - saved in the disk if you use `dbdir = "goodreads.db"`
+
+
+---
+
+- Two tools to recommend:
+    - JupySQL
+    - it allows you to use SQL in Jupyter Notebook
+    ```
+    %%sql
+    -- # read and describe books data
+    DESCRIBE
+    SELECT * FROM read_json_auto('data/goodreads_books.json.gz')
+    ```
+
+- R `DBI` package
+    - it allows you to use SQL in R
+    ```
+    dbGetQuery(con, "SELECT * FROM books LIMIT 10")
+    ```
+
+- Use R if you want to do plotting, otherwise JuptySQL is enough
+
+---
+
+# A good workshop about DuckDB and Arrow
+
+<a href="https://arrow-user2022.netlify.app/" target="_blank"> Arrow and DuckDB </a>
