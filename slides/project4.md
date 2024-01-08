@@ -809,3 +809,56 @@ FROM (
 LEFT JOIN authors AS a ON b.author_info['author_id'] = a.author_id
 -- # now we get 1,239, 751 rows
 ```
+
+
+---
+
+# Review dataset
+
+- `11307715` (11.3m) reviews after filtering with `book_id` in `books3`
+
+```sql
+-- # create review table where book_id exists in books3
+CREATE TABLE reviews AS
+SELECT user_id, book_id, review_id, review_text, n_votes, n_comments
+FROM read_json_auto('./data/goodreads_reviews_dedup.json.gz')
+WHERE book_id IN (SELECT book_id FROM books3)
+```
+
+---
+
+# Top 10 books with most reviews
+
+```sql
+SELECT b3.title, r.num_book_reviews, b3.average_rating, b3.book_id
+FROM (
+    SELECT book_id, COUNT(*) AS num_book_reviews
+    FROM reviews
+    GROUP BY book_id
+    ORDER BY num_book_reviews DESC
+    LIMIT 10
+) AS r
+LEFT JOIN books3 AS b3 ON r.book_id = b3.book_id
+ORDER BY r.num_book_reviews DESC
+```
+
+---
+
+# Top 10 books with most reviews
+
+```
+┌─────────────────────────────────────────┬──────────────────┬────────────────┬──────────┐
+│                  title                  │ num_book_reviews │ average_rating │ book_id  │
+├─────────────────────────────────────────┼──────────────────┼────────────────┼──────────┤
+│          The Fault in Our Stars         │      20756       │      4.26      │ 11870085 │
+│ The Hunger Games (The Hunger Games, #1) │      18617       │      4.34      │ 2767052  │
+│    Mockingjay (The Hunger Games, #3)    │      13536       │      4.03      │ 7260188  │
+│          The Girl on the Train          │      13402       │      3.88      │ 22557272 │
+│   Catching Fire (The Hunger Games, #2)  │      11904       │      4.30      │ 6148028  │
+│              The Book Thief             │      11300       │      4.36      │  19063   │
+│ Fifty Shades of Grey (Fifty Shades, #1) │      11184       │      3.66      │ 10818853 │
+│        Divergent (Divergent, #1)        │      10743       │      4.23      │ 13335037 │
+│         Twilight (Twilight, #1)         │      10535       │      3.57      │  41865   │
+│               The Martian               │       9590       │      4.39      │ 18007564 │
+└─────────────────────────────────────────┴──────────────────┴────────────────┴──────────┘
+```

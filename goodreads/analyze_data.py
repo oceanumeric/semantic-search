@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 # load environment variables
 # %%
 %load_ext sql
-conn = duckdb.connect()
+conn = duckdb.connect('goodreads.db')
 %sql conn --alias duckdb
 
 
@@ -133,6 +133,12 @@ SELECT * FROM books
 WHERE language_code = 'eng' OR language_code = 'en-US' OR language_code = 'en-GB'
 
 
+#%%
+%%sql
+-- # drop books table as it is no longer needed
+DROP TABLE books
+
+
 # %%
 %%sql
 -- # describe books2
@@ -239,4 +245,63 @@ FROM books3
 %%sql
 -- # delete books2 table as it is no longer needed
 DROP TABLE books2
+
+
+# %%
+%%sql
+-- # create review table where book_id exists in books3
+CREATE TABLE reviews AS
+SELECT user_id, book_id, review_id, review_text, n_votes, n_comments
+FROM read_json_auto('./data/goodreads_reviews_dedup.json.gz')
+WHERE book_id IN (SELECT book_id FROM books3)
+# %%
+
+
+# %%
+%%sql
+-- # save books3 and reviews tables to disk
+SHOW TABLES
+# %%
+%%sql
+SELECT * FROM duckdb_settings();
+
+
+# %%
+%%sql
+-- # we finished creating tables, next time we can just read from disk
+-- # for instace sample 5 rows from reviews table
+SELECT * FROM reviews
+USING SAMPLE 5
+
+
+# %%
+%%sql
+-- # check average number of reviews per book
+-- # by counting number of reviews for each book based on book_id
+-- # and then calculate average
+SELECT AVG(count) AS avg_reviews_per_book
+FROM (
+    SELECT book_id, COUNT(*) AS count
+    FROM reviews
+    GROUP BY book_id
+)
+
+
+# %%
+%%sql top_10_books <<
+-- # get the top 10 books with most reviews
+-- # get title from books3 table
+SELECT b3.title, r.num_book_reviews, b3.average_rating, b3.book_id
+FROM (
+    SELECT book_id, COUNT(*) AS num_book_reviews
+    FROM reviews
+    GROUP BY book_id
+    ORDER BY num_book_reviews DESC
+    LIMIT 10
+) AS r
+LEFT JOIN books3 AS b3 ON r.book_id = b3.book_id
+ORDER BY r.num_book_reviews DESC
+
+# %%
+print(top_10_books)
 # %%
