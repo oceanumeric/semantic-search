@@ -173,7 +173,7 @@ Github: [oceanumeric](https://github.com/oceanumeric)
 
 # Big data analytics in the era of AI: benchmark
 
-- <a href="https://h2oai.github.io/db-benchmark/" target="_blank"> Benchmark </a>
+- <a href="https://duckdblabs.github.io/db-benchmark/" target="_blank"> Benchmark </a>
 - Guidances:
     - CSV (<= 50 GB): `data.table` in R
     - CSV (>= 50 GB): `duckdb` in R or Python
@@ -861,4 +861,171 @@ ORDER BY r.num_book_reviews DESC
 │         Twilight (Twilight, #1)         │      10535       │      3.57      │  41865   │
 │               The Martian               │       9590       │      4.39      │ 18007564 │
 └─────────────────────────────────────────┴──────────────────┴────────────────┴──────────┘
+```
+
+---
+
+# Distribution of reviews
+
+```R
+dbGetQuery(con,
+          "SELECT book_id, COUNT(*) AS count
+          FROM reviews
+          GROUP BY book_id
+          ORDER BY count DESC") %>%
+    # plot the distribution of the number of reviews per book
+    with(plot(count, ylab="Number of reviews per book",
+              xlab="Index Number of the book",
+              main="Distribution of the number of reviews per book",
+              log='x'))
+# log scale
+```
+
+---
+
+<img style="width:87%" src="./images/dist-num-reviews.png">
+
+
+--- 
+
+# Why I love R :heart: for data analysis
+
+```R
+# describe all tables
+dbGetQuery(con, "SHOW TABLES;") %>%
+    .$name %>%
+    lapply(
+        function(x) dbGetQuery(con, paste0("DESCRIBE ", x))
+        ) %>%
+    kable()
+```
+
+<br>
+
+> It is so easy to describe all tables in R (but not in Python)
+
+
+---
+
+# Why I love R :heart: (I use both R and Python)
+
+```R
+dbGetQuery(con,
+    "SELECT publication_year, COUNT(*) AS count
+    FROM books3
+    WHERE publication_year IS NOT NULL AND publication_year != ''
+    GROUP BY publication_year
+    ORDER BY count DESC") %>%
+    as.data.table() %>%
+    # convert the publication_year to numeric
+    .[, .(year = as.numeric(publication_year), count)] %>%
+    # only take the books published after 1990 and before 2023
+    .[year > 1990 & year < 2023] %>%
+    # order by year
+    .[order(year)] %>% 
+    # plot it with connected dot
+    with(plot(year, count, type='b', xlab='Publication year',
+              ylab='Number of books',
+              main='Trend of the number of books published per year'))
+```
+
+---
+
+# duckdb VIEW :duck:
+
+- <a href="https://duckdb.org/docs/sql/statements/create_view.html" target="_blank"> CREATE VIEW </a>
+
+- Views are virtual tables that are the result of a query. They are useful for simplifying complex queries and for hiding the complexity of the underlying data structure.
+
+- But it will be materialized when you query it, especially:
+    - `USING SAMPLE` (slow and takes a lot of memory)
+    - `LIMIT 10` is better for having a quick look at the data
+
+
+---
+
+# Data for embedding
+
+
+```
+|column_name |column_type |null |key |default | extra|
+|:-----------|:-----------|:----|:---|:-------|-----:|
+|book_id     |BIGINT      |YES  |NA  |NA      |    NA|
+|title       |VARCHAR     |YES  |NA  |NA      |    NA|
+|description |VARCHAR     |YES  |NA  |NA      |    NA|
+|review_id   |UUID        |YES  |NA  |NA      |    NA|
+|review_text |VARCHAR     |YES  |NA  |NA      |    NA|
+```
+
+
+---
+
+# Data for embedding
+
+
+```
+{
+    "book_id":12047169,
+    "title": "Chocolate Covered Murder (A Lucy Stone Mystery, #18)",
+    "description":"Lucy Stone, mother of three, works as
+    a reporter on her local paper in the small . . .
+    "review_id":"597149f4-5e89-5ef0-c7bf-9cecb161fff3",
+    "review_text":"This got two stars because . . . 
+}
+```
+
+---
+
+# Some SQL
+
+```sql
+SELECT *
+    FROM books_reviews
+    WHERE book_id IN (
+        SELECT book_id
+        FROM (
+            SELECT book_id, COUNT(*) AS count
+            FROM books_reviews
+            GROUP BY book_id
+            HAVING count > 1000
+            ORDER BY count ASC
+            LIMIT 5
+            )
+        );
+```
+
+---
+
+# Same Table in R
+
+```R
+dbGetQuery(con,
+    "SELECT book_id, COUNT(*) AS count
+    FROM books_reviews
+    GROUP BY book_id
+    HAVING count > 1000
+    ORDER BY count DESC") %>%  # this get a table
+    as.data.table() %>%
+    # sample 5 rows
+    .[sample(.N, 5)] %>%  # now we sample
+    # map the book_id to dbGetQuery
+    .[, dbGetQuery(con, "SELECT *
+                        FROM books_reviews
+                        WHERE book_id IN (?, ?, ?, ?, ?)",
+                        book_id)] %>%
+    # it return as data.frame, so we need to convert it to data.table
+    as.data.table()
+```
+
+
+---
+
+```
+| book_id|title                                           |review_id                            |
+|-------:|:-----------------------------------------------|:------------------------------------|
+| 8755776|City of Lost Souls (The Mortal Instruments, #5) |a6559c80-68e1-149b-e2b7-4822d4355d39 |
+| 8755776|City of Lost Souls (The Mortal Instruments, #5) |c1c72135-ae23-7dcd-3a55-96e33852e5a9 |
+|   38980|The Princess Diaries (The Princess Diaries, #1) |962b4066-0fe6-a561-c6fb-c78ff4cffd39 |
+|   38980|The Princess Diaries (The Princess Diaries, #1) |962b4066-0fe6-a561-c6fb-c78ff4cffd39 |
+|   38980|The Princess Diaries (The Princess Diaries, #1) |962b4066-0fe6-a561-c6fb-c78ff4cffd39 |
 ```

@@ -9,7 +9,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 
-
 ## ------------------ Set up environment ------------------ ##
 # load environment variables
 # %%
@@ -304,4 +303,36 @@ ORDER BY r.num_book_reviews DESC
 
 # %%
 print(top_10_books)
+
+
+# %%
+# --------------------------------- Part 2 --------------------------------- #
+
+# @ai
+# date: 2024-01-08
+# now we want to prepare our text data for NLP analysis
+# we need the following columns:
+# book_id, title, description, review_text
+# later we could use n_votes to select high quality reviews
+# but at this stage we will ignore it
+
+
+# %%
+%%sql
+-- # describe reviews table
+DESCRIBE reviews
+# %%
+%%sql
+-- # describe books3 table
+DESCRIBE books3
+
+# %%
+%%sql
+-- # get the distribution of review for each unique book_id 
+SELECT book_id, COUNT(*) AS count
+FROM reviews
+GROUP BY book_id
+ORDER BY count DESC
+LIMIT 10
+
 # %%
